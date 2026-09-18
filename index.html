@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<meta name="description" content="Personal NEET Study Command Center">
+<title>Study Command Center</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/logo-placeholder.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- FOCUS MODE OVERLAY -->
+<div id="focusOverlay" class="focus-overlay hidden" role="dialog" aria-label="Focus mode">
+  <div class="focus-inner">
+    <div class="focus-label">FOCUS MODE</div>
+    <div id="focusTaskName" class="focus-task">—</div>
+    <div id="focusTime" class="focus-time">25:00</div>
+    <div class="focus-quote">Stay with the task.</div>
+    <button id="focusExit" class="btn btn-ghost">EXIT FOCUS</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="topbar">
+  <div class="logo-area">
+    <img id="logoImg" src="assets/logo-placeholder.svg" alt="Logo" class="logo">
+    <div>
+      <h1 id="dashTitle" class="dash-title">MISSION: NEET 2027</h1>
+      <div class="subtitle"><span id="helloName"></span> <span id="todayDate"></span> · <span id="liveClock" class="clock">--:--:--</span></div>
+    </div>
+  </div>
+  <button id="settingsBtn" class="icon-btn" aria-label="Open settings">⚙️</button>
+</header>
+
+<main class="container">
+
+  <!-- NEXT TARGET + EXAM/VACATION BADGES -->
+  <section class="hero" id="heroSection">
+    <div id="modeBadge" class="mode-badge hidden"></div>
+    <div class="hero-label">⚡ NEXT TARGET</div>
+    <div id="heroEventName" class="hero-name">—</div>
+    <div id="heroCountdown" class="hero-count">— — —</div>
+    <div id="heroDate" class="hero-date"></div>
+  </section>
+
+  <!-- WHY -->
+  <section class="why-card" id="whySection">
+    <div class="why-label">WHY AM I DOING THIS?</div>
+    <div id="whyText" class="why-text"></div>
+  </section>
+
+  <!-- NEET CARD -->
+  <section class="neet-card" id="neetSection">
+    <div class="neet-label">NEET 2027</div>
+    <div class="neet-days"><span id="neetDays">—</span><span class="neet-unit">DAYS</span></div>
+    <div id="neetSub" class="neet-sub"></div>
+  </section>
+
+  <!-- START STUDYING -->
+  <button id="startStudyingBtn" class="big-cta">▶ START STUDYING</button>
+
+  <!-- COUNTDOWN EVENTS -->
+  <section id="eventsSection">
+    <h2 class="section-title">COUNTDOWNS</h2>
+    <div id="eventsList" class="events-list"></div>
+  </section>
+
+  <!-- TODAY'S MISSION -->
+  <section id="tasksSection">
+    <h2 class="section-title">TODAY'S MISSION</h2>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>TODAY'S PROGRESS</span><span id="progressPct">0%</span></div>
+      <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+    </div>
+    <ul id="taskList" class="task-list"></ul>
+    <div class="row-add">
+      <input id="quickTaskInput" type="text" placeholder="Add a task…" aria-label="New task">
+      <button id="quickTaskBtn" class="btn">+ ADD</button>
+    </div>
+  </section>
+
+  <!-- DEEP WORK TIMER -->
+  <section id="timerSection">
+    <h2 class="section-title">DEEP WORK TIMER</h2>
+    <div class="timer-card">
+      <div id="timerDisplay" class="timer-display">25:00</div>
+      <div id="timerTaskLabel" class="timer-task-label">No task selected</div>
+      <div class="timer-presets" id="timerPresets"></div>
+      <div class="timer-controls">
+        <button id="timerStart" class="btn btn-accent">START</button>
+        <button id="timerPause" class="btn">PAUSE</button>
+        <button id="timerReset" class="btn btn-ghost">RESET</button>
+      </div>
+      <div class="row-add">
+        <select id="timerTaskSelect" aria-label="Connect timer to task"></select>
+        <input id="customMin" type="number" min="1" max="600" placeholder="Custom min" aria-label="Custom minutes">
+      </div>
+    </div>
+  </section>
+
+  <!-- DAILY PROGRESS -->
+  <section id="statsSection">
+    <h2 class="section-title">DAILY PROGRESS</h2>
+    <div class="stats-grid">
+      <div class="stat"><div class="stat-label">FOCUS TIME</div><div id="statFocus" class="stat-val">0m</div></div>
+      <div class="stat"><div class="stat-label">TASKS</div><div id="statTasks" class="stat-val">0/0</div></div>
+      <div class="stat"><div class="stat-label">STREAK</div><div id="statStreak" class="stat-val">0</div></div>
+      <div class="stat"><div class="stat-label">WEEKLY</div><div id="statWeekly" class="stat-val">0h</div></div>
+      <div class="stat"><div class="stat-label">MCQs</div><div id="statMcq" class="stat-val">0</div></div>
+      <div class="stat"><div class="stat-label">CHAPTERS</div><div id="statChapters" class="stat-val">0</div></div>
+    </div>
+    <div class="row-add">
+      <input id="mcqInput" type="number" min="1" placeholder="MCQs done" aria-label="MCQs completed">
+      <button id="mcqBtn" class="btn">+ MCQ</button>
+      <button id="chapterBtn" class="btn">+ CHAPTER</button>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <section id="quoteSection" class="quote-card">
+    <div id="quoteText" class="quote-text"></div>
+  </section>
+
+  <footer class="footer">Built for focus · All data stays in your browser</footer>
+</main>
+
+<!-- SETTINGS MODAL -->
+<div id="settingsModal" class="modal hidden" role="dialog" aria-label="Settings">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h2>SETTINGS</h2>
+      <button id="settingsClose" class="icon-btn" aria-label="Close settings">✕</button>
+    </div>
+    <nav class="tabs" aria-label="Settings tabs">
+      <button class="tab active" data-tab="general">General</button>
+      <button class="tab" data-tab="events">Events</button>
+      <button class="tab" data-tab="tasks">Tasks</button>
+      <button class="tab" data-tab="quotes">Quotes</button>
+      <button class="tab" data-tab="appearance">Appearance</button>
+      <button class="tab" data-tab="data">Data</button>
+    </nav>
+    <div class="modal-body">
+
+      <div class="tab-panel" id="tab-general">
+        <label class="fld"><span>Your name</span><input id="setName" type="text"></label>
+        <label class="fld"><span>Dashboard title</span><input id="setTitle" type="text"></label>
+        <label class="fld"><span>Main goal</span><input id="setGoal" type="text"></label>
+        <label class="fld"><span>Why am I doing this?</span><textarea id="setWhy" rows="2"></textarea></label>
+        <label class="fld"><span>NEET date</span><input id="setNeetDate" type="date"></label>
+        <label class="fld"><span>Logo image</span><input id="setLogo" type="file" accept="image/*"></label>
+        <label class="fld check"><input id="setShowLogo" type="checkbox"><span>Show logo</span></label>
+        <label class="fld"><span>Exam-mode threshold (days)</span><input id="setExamThreshold" type="number" min="0" max="60"></label>
+        <label class="fld check"><input id="setClock12" type="checkbox"><span>12-hour clock</span></label>
+        <h3 class="sub-title">Visible sections</h3>
+        <div id="sectionToggles"></div>
+        <h3 class="sub-title">Subjects</h3>
+        <div class="row-add"><input id="newSubject" type="text" placeholder="Add subject…"><button id="addSubjectBtn" class="btn">+</button></div>
+        <div id="subjectList" class="chip-list"></div>
+      </div>
+
+      <div class="tab-panel hidden" id="tab-events">
+        <div id="eventEditor"></div>
+        <button id="addEventBtn" class="btn btn-accent wide">+ ADD EVENT</button>
+      </div>
+
+      <div class="tab-panel hidden" id="tab-tasks">
+        <div class="row-add"><input id="setTaskInput" type="text" placeholder="Task…"><select id="setTaskSubject"></select><input id="setTaskDur" type="number" min="5" step="5" placeholder="Min" class="small-input"><button id="setTaskAdd" class="btn">+</button></div>
+        <ul id="settingsTaskList" class="task-list"></ul>
+        <h3 class="sub-title">Timer presets (minutes)</h3>
+        <div id="presetEditor"></div>
+      </div>
+
+      <div class="tab-panel hidden" id="tab-quotes">
+        <div class="row-add"><input id="newQuote" type="text" placeholder="Add your own quote…"><button id="addQuoteBtn" class="btn">+</button></div>
+        <ul id="quoteList" class="plain-list"></ul>
+      </div>
+
+      <div class="tab-panel hidden" id="tab-appearance">
+        <label class="fld"><span>Theme</span>
+          <select id="setTheme"><option value="dark">Dark</option><option value="light">Light</option><option value="oled">OLED Black</option></select>
+        </label>
+        <label class="fld"><span>Accent color</span><input id="setAccent" type="color"></label>
+        <label class="fld"><span>Font size</span><input id="setFont" type="range" min="0.85" max="1.3" step="0.05"></label>
+        <label class="fld"><span>Card transparency</span><input id="setTransparency" type="range" min="0" max="1" step="0.05"></label>
+        <label class="fld check"><input id="setCompact" type="checkbox"><span>Compact layout</span></label>
+        <label class="fld check"><input id="setAnimations" type="checkbox"><span>Animations</span></label>
+        <label class="fld check"><input id="setReducedMotion" type="checkbox"><span>Reduced motion</span></label>
+      </div>
+
+      <div class="tab-panel hidden" id="tab-data">
+        <button id="exportBtn" class="btn btn-accent wide">⬇ EXPORT DATA (JSON)</button>
+        <label class="btn wide import-label">⬆ IMPORT DATA<input id="importFile" type="file" accept=".json,application/json" hidden></label>
+        <button id="resetBtn" class="btn btn-danger wide">🗑 RESET ALL DATA</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- START STUDYING MODAL -->
+<div id="studyModal" class="modal hidden" role="dialog" aria-label="Start studying">
+  <div class="modal-card">
+    <div class="modal-head"><h2>CHOOSE A TASK</h2><button id="studyClose" class="icon-btn" aria-label="Close">✕</button></div>
+    <div class="modal-body"><div id="studyTaskList"></div></div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden" role="status"></div>
+
+<script src="script.js"></script>
+</body>
+</html>

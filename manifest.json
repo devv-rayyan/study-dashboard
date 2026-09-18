@@ -1,0 +1,13 @@
+{
+  "name": "Study Command Center",
+  "short_name": "StudyCC",
+  "description": "Personal NEET Study Command Center",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b0e14",
+  "theme_color": "#0b0e14",
+  "icons": [
+    { "src": "assets/logo-placeholder.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
